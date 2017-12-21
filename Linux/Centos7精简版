@@ -1,0 +1,42 @@
+预：
+1、打开网络
+# vi /etc/sysconfig/network-scripts/ifcfg-enoXXX
+修改 ONBOOT=no  ==>  ONBOOT=yes
+# reboot  //重启 shutdown -r now
+2、更新系统（多次测试，后台静默升级导致系统异常）
+# yum update
+...waiting
+检查防火墙firewalld或iptables
+
+可选：
+1、基本没有服务，须yum下载。
+    若自带的yum库不可用，则需要更换文件/etc/yum.repos.d/CentOS-Base.repo，可用库有163、aliyun等多个可下载。
+# yum clean all  //清理所有
+# yum makecache  //加载缓存
+2、安装防火墙firewalld或iptables，其中iptables防火墙为
+# yum install iptables
+# yum install iptables-services
+// firewalld配置文件/etc/firewalld/zones/*.xml
+// iptables配置文件/etc/sysconfig/iptables
+3、完全卸载依赖
+# yum history list XXX  //获取ID
+# yum history undo ID
+4、常用软件 
+    zip / unzip
+    iptables / iptables-services
+    vim
+
+开始：
+1、安装JDK
+# rpm -ivh xxx-jdk-xxx.rpm // 安装路径为/usr/java/jdk1.8.0_144
+或 # tar -???
+配置环境变量
+vi /etc/profile
+
+export JAVA_HOME=..
+export PATH=$JAVA_HOME/bin:$PATH
+export CLASSPATH=.:$JAVA_HOME/lib/dt.jar:$JAVA_HOME/lib/tools.jar
+2、TOMCAT ZIP 权限更改
+chmod 755 /TOMCAT/bin/startup.sh
+chmod 755 /TOMCAT/bin/catalina.sh
+chmod 755 /TOMCAT/bin/shutdown.sh
